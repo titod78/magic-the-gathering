@@ -1,0 +1,40 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders correctly 1`] = `
+<Modal
+  animationType="slide"
+  hardwareAccelerated={false}
+  style={
+    Object {
+      "height": 120,
+      "justifyContent": "center",
+      "width": 250,
+    }
+  }
+  transparent={false}
+  visible={true}
+>
+  <View>
+    <Text>
+      Mock text
+    </Text>
+    <View
+      accessible={true}
+      isTVSelectable={true}
+      onResponderGrant={[Function]}
+      onResponderMove={[Function]}
+      onResponderRelease={[Function]}
+      onResponderTerminate={[Function]}
+      onResponderTerminationRequest={[Function]}
+      onStartShouldSetResponder={[Function]}
+      style={null}
+    >
+      <Text
+        style={null}
+      >
+        Close
+      </Text>
+    </View>
+  </View>
+</Modal>
+`;
