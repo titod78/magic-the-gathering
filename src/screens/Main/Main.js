@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { StyleSheet, View, TextInput, ActivityIndicator, Dimensions } from "react-native";
 import { Button, Icon } from "react-native-elements";
+import config from "../../config/config";
 import List from "../../components/List/List";
 import useInfiniteScroll from "../../hooks/useInfiniteScroll";
 import { getMtgData } from "../../services/mtgService";
@@ -8,18 +9,19 @@ import ModalError from "../../components/Modal/Error/ModalError";
 import ModalImageDetail from "../../components/Modal/ImageDetail/ModalImageDetail";
 
 const windowDimensions = Dimensions.get("window");
+let hasMoreResults = true;
+let searchTerm = "";
+let imageDetail;
+let backgorundColorDetail = "#fff";
 
 export default function App() {
   const [list, setList] = useState([]);
   const [page, setPage] = useState(1);
   const [isLoading, setIsLoading] = useState(true);
   const [isSearching, setIsSearching] = useState(false);
-  const [searchTerm, setSearchTerm] = useState("");
   const [error, setError] = useState(null);
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [isImageDetailModalVisible, setIsImageDetailModalVisible] = useState(false);
-  const [imageDetail, setImageDetail] = useState(null);
-  const [backgorundColorDetail, setBackgorundColorDetail] = useState("#fff");
   const [isFetching, setIsFetching] = useInfiniteScroll(fetchMoreListItems);
 
   function fetchMoreListItems() {
@@ -27,16 +29,24 @@ export default function App() {
       try {
         const result = await getMtgData(page, searchTerm);
         const cards = result.cards;
-        if (!cards) return;
+        if (cards.length === 0) {
+          setIsLoading(false);
+          setIsFetching(false);
+          hasMoreResults = false;
+          return;
+        }
         setList([...list, ...cards]);
         setPage(page + 1);
+        if (cards.length < config.pageSize) {
+          hasMoreResults = false;
+        }
       } catch (e) {
         setError(e);
       }
       setIsLoading(false);
       setIsFetching(false);
     };
-    fetchData();
+    hasMoreResults && fetchData();
   }
 
   useEffect(() => {
@@ -58,14 +68,16 @@ export default function App() {
   function onCardClick(cardData) {
     const color = cardData.color ? cardData.color.toLowerCase() : backgorundColorDetail;
     document && (document.body.style.overflow = "hidden");
-    setImageDetail(cardData.imageUrl);
-    setBackgorundColorDetail(color);
+    imageDetail = cardData.imageUrl;
+    backgorundColorDetail = color;
     setIsImageDetailModalVisible(true);
   }
 
   function updateSearch(term = "") {
+    hasMoreResults = true;
+    searchTerm = term;
     setPage(1);
-    setSearchTerm(term);
+    setIsFetching(false);
   }
 
   async function onSearch(p = page, s = searchTerm) {
@@ -111,7 +123,11 @@ export default function App() {
     <View style={styles.container}>
       {!isLoading && !isSearching && (
         <View style={{ flexDirection: "row" }}>
-          <TextInput placeholder={searchTerm || `Find your card!`} onChangeText={updateSearch} />
+          <TextInput
+            placeholder={searchTerm || `Find your card!`}
+            onChangeText={updateSearch}
+            style={{ borderWidth: 1 }}
+          />
           <Button
             icon={<Icon name="search" size={12} />}
             onPress={() => searchTerm !== "" && onSearch()}
@@ -127,7 +143,7 @@ export default function App() {
       ) : (
         !isModalVisible && <ModalError text="No results found" visible={isModalVisible} onClose={onCloseModalError} />
       )}
-      {isFetching && !isLoading && <ActivityIndicator size="large" color="#0000ff" />}
+      {isFetching && !isLoading && hasMoreResults && <ActivityIndicator size="large" color="#0000ff" />}
       {isImageDetailModalVisible && (
         <ModalImageDetail
           imageDetail={imageDetail}
