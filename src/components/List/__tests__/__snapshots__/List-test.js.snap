@@ -92,7 +92,9 @@ exports[`renders correctly 1`] = `
     <View
       style={
         Object {
+          "alignItems": "center",
           "backgroundColor": "transparent",
+          "justifyContent": "center",
         }
       }
     >
@@ -231,6 +233,7 @@ exports[`renders correctly 1`] = `
           Object {
             "flex": 1,
             "flexDirection": "row",
+            "paddingTop": 5,
           }
         }
       >
@@ -252,6 +255,7 @@ exports[`renders correctly 1`] = `
           Object {
             "flex": 1,
             "flexDirection": "row",
+            "paddingTop": 5,
           }
         }
       >
@@ -273,6 +277,7 @@ exports[`renders correctly 1`] = `
           Object {
             "flex": 1,
             "flexDirection": "row",
+            "paddingTop": 5,
           }
         }
       >
@@ -342,6 +347,7 @@ exports[`renders correctly 1`] = `
           Object {
             "flex": 1,
             "flexDirection": "row",
+            "paddingTop": 5,
           }
         }
       >

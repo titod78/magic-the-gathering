@@ -5,6 +5,7 @@ import { Card, Image, Icon } from "react-native-elements";
 const styles = StyleSheet.create({
   text: {
     flex: 1,
+    paddingTop: 5,
     flexDirection: "row"
   }
 });
@@ -21,7 +22,7 @@ const MtgCard = props => {
 
   return (
     <Card title={name} key={`card_${id}`}>
-      <View style={{ backgroundColor: "transparent" }}>
+      <View style={{ backgroundColor: "transparent", alignItems: "center", justifyContent: "center" }}>
         <TouchableOpacity onPress={onClickImage}>
           <Image
             style={{ width: 223, height: 310 }}
@@ -45,6 +46,7 @@ const MtgCard = props => {
               name="circle"
               size={17}
               color={color.toLowerCase()}
+              iconStyle={{ padding: 1 }}
               key={`color_icon__${id}_${Math.random()}`}
             />
           ))}
