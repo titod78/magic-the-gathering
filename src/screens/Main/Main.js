@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { StyleSheet, View, TextInput, ActivityIndicator, Dimensions } from "react-native";
-import { Button, Icon } from "react-native-elements";
 import config from "../../config/config";
 import List from "../../components/List/List";
 import useInfiniteScroll from "../../hooks/useInfiniteScroll";
 import { getMtgData } from "../../services/mtgService";
 import ModalError from "../../components/Modal/Error/ModalError";
+import Search from "../../components/Search/Search";
 import ModalImageDetail from "../../components/Modal/ImageDetail/ModalImageDetail";
 
 const windowDimensions = Dimensions.get("window");
@@ -89,6 +89,9 @@ export default function App() {
     setList([...cards]);
     setIsSearching(false);
     searchTerm !== "" && setPage(p + 1);
+    if (cards.length < config.pageSize) {
+      hasMoreResults = false;
+    }
   }
 
   function resetSearch() {
@@ -113,28 +116,13 @@ export default function App() {
       height: windowDimensions.height,
       alignItems: "center",
       justifyContent: "center"
-    },
-    buttons: {
-      padding: 2
     }
   });
 
   return (
     <View style={styles.container}>
       {!isLoading && !isSearching && (
-        <View style={{ flexDirection: "row" }}>
-          <TextInput
-            placeholder={searchTerm || `Find your card!`}
-            onChangeText={updateSearch}
-            style={{ borderWidth: 1 }}
-          />
-          <Button
-            icon={<Icon name="search" size={12} />}
-            onPress={() => searchTerm !== "" && onSearch()}
-            style={styles.buttons}
-          />
-          <Button icon={<Icon name="clear" size={12} />} onPress={resetSearch} style={styles.buttons} />
-        </View>
+        <Search searchCallback={onSearch} resetCallback={resetSearch} updateSearchCallback={updateSearch} />
       )}
       {isLoading || isSearching ? (
         <ActivityIndicator size="large" color="#0000ff" />
@@ -143,7 +131,9 @@ export default function App() {
       ) : (
         !isModalVisible && <ModalError text="No results found" visible={isModalVisible} onClose={onCloseModalError} />
       )}
-      {isFetching && !isLoading && hasMoreResults && <ActivityIndicator size="large" color="#0000ff" />}
+      {isFetching && !isLoading && hasMoreResults && (
+        <ActivityIndicator size="large" color="#0000ff" style={{ padding: 10 }} />
+      )}
       {isImageDetailModalVisible && (
         <ModalImageDetail
           imageDetail={imageDetail}
