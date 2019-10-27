@@ -1,25 +1,39 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`renders correctly 1`] = `
-<View
-  accessible={true}
-  isTVSelectable={true}
-  onResponderGrant={[Function]}
-  onResponderMove={[Function]}
-  onResponderRelease={[Function]}
-  onResponderTerminate={[Function]}
-  onResponderTerminationRequest={[Function]}
-  onStartShouldSetResponder={[Function]}
-  style={null}
+<Modal
+  animationType="slide"
+  hardwareAccelerated={false}
+  onRequestClose={[Function]}
+  style={Object {}}
+  transparent={false}
+  visible={true}
 >
-  <Modal
-    animationType="slide"
-    hardwareAccelerated={false}
-    style={Object {}}
-    transparent={false}
-    visible={true}
+  <View
+    accessible={true}
+    isTVSelectable={true}
+    onResponderGrant={[Function]}
+    onResponderMove={[Function]}
+    onResponderRelease={[Function]}
+    onResponderTerminate={[Function]}
+    onResponderTerminationRequest={[Function]}
+    onStartShouldSetResponder={[Function]}
+    style={
+      Object {
+        "alignItems": "center",
+        "flex": 1,
+        "height": 1334,
+        "justifyContent": "center",
+        "left": 0,
+        "position": "relative",
+        "top": 0,
+        "width": 750,
+      }
+    }
   >
-    <View>
+    <View
+      style={null}
+    >
       <View
         accessibilityIgnoresInvertColors={true}
         style={
@@ -135,6 +149,6 @@ exports[`renders correctly 1`] = `
         />
       </View>
     </View>
-  </Modal>
-</View>
+  </View>
+</Modal>
 `;

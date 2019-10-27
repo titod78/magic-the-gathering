@@ -3,26 +3,26 @@ import { StyleSheet, View, Text, ActivityIndicator, TouchableOpacity } from "rea
 import { Card, Image, Icon } from "react-native-elements";
 
 const styles = StyleSheet.create({
+  view: {
+    backgroundColor: "transparent",
+    alignItems: "center",
+    justifyContent: "center",
+  },
   text: {
     flex: 1,
     paddingTop: 5,
-    flexDirection: "row"
-  }
+    flexDirection: "row",
+  },
 });
 
-const MtgCard = props => {
-  const {
-    item: { id, name, type, colors, setName, imageUrl },
-    onClick
-  } = props;
-
+const MtgCard = ({ item: { id, name, type, colors, setName, imageUrl }, onClick }) => {
   const onClickImage = () => {
     onClick && onClick({ imageUrl, color: colors[0] });
   };
 
   return (
     <Card title={name} key={`card_${id}`}>
-      <View style={{ backgroundColor: "transparent", alignItems: "center", justifyContent: "center" }}>
+      <View style={styles.view}>
         <TouchableOpacity onPress={onClickImage}>
           <Image
             style={{ width: 223, height: 310 }}
@@ -40,7 +40,7 @@ const MtgCard = props => {
         </View>
         <View style={styles.text}>
           <Text style={{ fontWeight: "bold" }}>Colors: </Text>
-          {colors.map(color => (
+          {colors.map((color) => (
             <Icon
               type="font-awesome"
               name="circle"

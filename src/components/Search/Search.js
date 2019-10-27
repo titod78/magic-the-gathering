@@ -3,16 +3,18 @@ import { StyleSheet, View, TextInput } from "react-native";
 import { Button, Icon } from "react-native-elements";
 
 const styles = StyleSheet.create({
-  buttons: {
-    padding: 2
-  }
+  input: {
+    borderWidth: 1,
+    width: 150,
+  },
+  button: {
+    paddingLeft: 4,
+  },
 });
 
 let searchTerm = "";
 
-const Search = props => {
-  const { updateSearchCallback, searchCallback, resetCallback } = props;
-
+const Search = ({ updateSearchCallback, searchCallback, resetCallback }) => {
   function updateSearch(term = "") {
     searchTerm = term;
     updateSearchCallback(term);
@@ -29,9 +31,14 @@ const Search = props => {
 
   return (
     <View style={{ flexDirection: "row" }}>
-      <TextInput placeholder={searchTerm || `Find your card!`} onChangeText={updateSearch} style={{ borderWidth: 1 }} />
-      <Button icon={<Icon name="search" size={12} />} onPress={onSearch} style={styles.buttons} />
-      <Button icon={<Icon name="clear" size={12} />} onPress={resetSearch} style={styles.buttons} />
+      <TextInput
+        placeholder="Find your card!"
+        onChangeText={updateSearch}
+        style={styles.input}
+        onSubmitEditing={onSearch}
+      />
+      <Button icon={<Icon name="search" size={24} />} onPress={onSearch} containerStyle={styles.button} />
+      <Button icon={<Icon name="clear" size={24} />} onPress={resetSearch} containerStyle={styles.button} />
     </View>
   );
 };

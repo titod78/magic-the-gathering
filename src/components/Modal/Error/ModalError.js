@@ -1,8 +1,7 @@
 import React from "react";
 import { View, Text, Modal, TouchableHighlight } from "react-native";
 
-const Modalerror = props => {
-  const { text, visible, onClose } = props;
+const Modalerror = ({ text, visible, onClose }) => {
   return (
     <Modal
       animationType="slide"

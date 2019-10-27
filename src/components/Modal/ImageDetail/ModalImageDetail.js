@@ -1,12 +1,31 @@
 import React from "react";
-import { View, ActivityIndicator, Modal, TouchableHighlight } from "react-native";
+import { View, ActivityIndicator, Modal, TouchableHighlight, Dimensions } from "react-native";
 import { Image } from "react-native-elements";
 
-const ModalImageDetail = props => {
-  const { imageDetail, visible, onClose, styles } = props;
+const windowDimensions = Dimensions.get("window");
+
+const ModalImageDetail = ({ imageDetail, visible, onClose, styles }) => {
+  const viewStyles = {
+    flex: 1,
+    top: 0,
+    left: 0,
+    position: "relative",
+    alignItems: "center",
+    justifyContent: "center",
+    width: windowDimensions.width,
+    height: windowDimensions.height,
+    ...styles,
+  };
   return (
-    <TouchableHighlight onPress={onClose}>
-      <Modal animationType="slide" transparent={false} visible={visible} animationType={"slide"} style={styles}>
+    <Modal
+      animationType="slide"
+      transparent={false}
+      visible={visible}
+      animationType={"slide"}
+      style={styles}
+      onRequestClose={onClose}
+    >
+      <TouchableHighlight onPress={onClose} style={viewStyles}>
         <View>
           <Image
             style={{ width: 223, height: 310 }}
@@ -14,8 +33,8 @@ const ModalImageDetail = props => {
             source={{ uri: imageDetail }}
           />
         </View>
-      </Modal>
-    </TouchableHighlight>
+      </TouchableHighlight>
+    </Modal>
   );
 };
 
